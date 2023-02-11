@@ -61,7 +61,7 @@ def update_record(record, ip_address):
                 logging.error(f"Could not add record.", exc_info=True)
                 exit(1) 
 
-if not (config['ipv4'] and config['ipv6']):
+if not (config['ipv4'] or config['ipv6']):
     logging.warning("You said no to both types of IP address!")
     exit(1)
 
