@@ -1,0 +1,13 @@
+2023-02-10 21:23:01,716 ERROR: A record for xmpp.blakedrinks.beer already points to 174.168.53.107
+INFO:root:Found IPv4 address 174.168.53.107
+INFO:root:Found IPv6 address 2601:19c:4400:196:92cd:f2b3:ee96:295e
+INFO:root:Getting DNS records from Dreamhost...
+INFO:root:A record for xmpp.blakedrinks.beer already points to 174.168.53.107
+2023-02-10 21:37:45,152 INFO: Found IPv4 address 174.168.53.107
+2023-02-10 21:37:45,561 INFO: Found IPv6 address 2601:19c:4400:196:92cd:f2b3:ee96:295e
+2023-02-10 21:37:45,562 INFO: Getting DNS records from Dreamhost...
+2023-02-10 21:37:45,996 INFO: A record for xmpp.blakedrinks.beer already points to 174.168.53.107
+2023-02-10 21:53:18,843 INFO: Found IPv4 address 174.168.53.107
+2023-02-10 21:53:19,239 INFO: Found IPv6 address 2601:19c:4400:196:92cd:f2b3:ee96:295e
+2023-02-10 21:53:19,239 INFO: Getting DNS records from Dreamhost...
+2023-02-10 21:53:19,675 INFO: A record for xmpp.blakedrinks.beer already points to 174.168.53.107

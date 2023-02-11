@@ -1,0 +1,10 @@
+api_key: dreamhost_key_goes_here
+ipv4: true
+ipv6: true
+domains:
+  - record: my.website.notreal
+    a: true
+    aaaa: true
+  - record: my.ipv4onlysite.notreal
+    a: true
+    aaaa: false
