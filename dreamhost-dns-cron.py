@@ -21,7 +21,6 @@ def find_record(records, domain, d_type):
     for record in records:
         if record['record'] == domain['record'] and record['type'] == d_type:
             if record['editable'] == '1':
-                record['value'] = ip_address(record['value'])
                 return(record)
             else:
                 logging.error(f"{record['record']} not editable!")
@@ -33,7 +32,7 @@ def update_record(record, ip):
     payload['key'] = config['api_key']
     payload['format'] = 'json'
 
-    if ip == record['value']:
+    if ip == ip_address(record['value']):
         logging.info(f"{record['type']} record for {record['record']} already points to {ip}")
         return False
     else:
