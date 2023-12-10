@@ -52,7 +52,7 @@ def update_record(record, ip):
                 exit(1)
         try:
             payload['cmd'] = 'dns-add_record'
-            payload['value'] = ip
+            payload['value'] = str(ip)
             logging.info(f"Adding new {record['type']} record for {record['record']}...")
             r = requests.get("https://api.dreamhost.com/", params=payload)
             if r.status_code == 200:
