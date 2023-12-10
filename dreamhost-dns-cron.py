@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import requests, yaml, argparse, logging
+from ipaddress import ip_address
 
 parser = argparse.ArgumentParser(description="Dynamically update DNS record at Dreamhost.")
 parser.add_argument("-c", metavar="FILENAME", help="Configuration file.", default="dreamhost-dns-cron.yaml")
@@ -20,24 +21,26 @@ def find_record(records, domain, d_type):
     for record in records:
         if record['record'] == domain['record'] and record['type'] == d_type:
             if record['editable'] == '1':
+                record['value'] = ip_address(record['value'])
                 return(record)
             else:
                 logging.error(f"{record['record']} not editable!")
                 exit(1)
     return(False)
 
-def update_record(record, ip_address):
+def update_record(record, ip):
     payload = record
     payload['key'] = config['api_key']
     payload['format'] = 'json'
 
-    if ip_address == record['value']:
-        logging.info(f"{record['type']} record for {record['record']} already points to {ip_address}")
+    if ip == record['value']:
+        logging.info(f"{record['type']} record for {record['record']} already points to {ip}")
         return False
     else:
+        logging.info(f"{record['type']} record is {record['value']}, but IP address is {ip}.")
         try:
             payload['cmd'] = 'dns-remove_record'
-            logging.info(f"Deleting old record for {record['record']}...")
+            logging.info(f"Deleting old {record['type']} record for {record['record']}...")
             r = requests.get("https://api.dreamhost.com/", params=payload)
             if r.status_code == 200:
                 logging.info("Deleted record.")
@@ -49,8 +52,8 @@ def update_record(record, ip_address):
                 exit(1)
         try:
             payload['cmd'] = 'dns-add_record'
-            payload['value'] = ip_address
-            logging.info(f"Adding new record for {record['record']}...")
+            payload['value'] = ip
+            logging.info(f"Adding new {record['type']} record for {record['record']}...")
             r = requests.get("https://api.dreamhost.com/", params=payload)
             if r.status_code == 200:
                 logging.info("Added record.")
@@ -116,8 +119,8 @@ for domain in config['domains']:
     if domain['a'] and ipv4:
         a_record = find_record(records, domain, "A")
         if a_record:
-            update_record(a_record, ipv4)
+            update_record(a_record, ip_address(ipv4))
     if domain['aaaa'] and ipv6:
         aaaa_record = find_record(records, domain, "AAAA")
         if aaaa_record:
-            update_record(aaaa_record, ipv6)
+            update_record(aaaa_record, ip_address(ipv6))
